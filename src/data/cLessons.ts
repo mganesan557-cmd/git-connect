@@ -1,0 +1,108 @@
+import { Topic } from "./pythonLessons";
+
+export const cTopics: Topic[] = [
+  {
+    id: "c-basics",
+    title: "C Basics",
+    icon: "⚙️",
+    color: "hsl(var(--syntax-keyword))",
+    lessons: [
+      {
+        id: "c-hello",
+        title: "Hello World & printf",
+        description: "Your first C program.",
+        content: `C is a low-level, compiled language that gives you direct access to memory.\n\nEvery C program starts with \`#include\` directives and a \`main()\` function.\n\n\`printf()\` prints formatted output. Format specifiers: \`%d\` (int), \`%f\` (float), \`%s\` (string), \`%c\` (char).`,
+        code: `#include <stdio.h>\n\nint main() {\n    printf("Hello, World!\\n");\n    \n    // Formatted output\n    char name[] = "Alice";\n    int age = 25;\n    float gpa = 3.85;\n    \n    printf("Name: %s\\n", name);\n    printf("Age: %d\\n", age);\n    printf("GPA: %.2f\\n", gpa);\n    \n    // Multiple values\n    printf("%s is %d years old\\n", name, age);\n    \n    return 0;\n}`,
+        language: "C",
+        expectedOutput: `Hello, World!\nName: Alice\nAge: 25\nGPA: 3.85\nAlice is 25 years old`,
+        tips: [
+          "#include <stdio.h> is required for printf/scanf",
+          "main() returns 0 for success",
+          "\\n adds a newline in printf",
+          "%.2f formats float to 2 decimal places",
+        ],
+        questions: [
+          { question: "What does #include <stdio.h> do?", options: ["Defines main", "Includes standard I/O library", "Creates variables", "Compiles code"], answer: 1, explanation: "#include adds the standard I/O header for printf, scanf, etc." },
+          { question: "What format specifier is for integers?", options: ["%s", "%f", "%d", "%c"], answer: 2, explanation: "%d is the format specifier for integers in printf." },
+          { question: "What does main() return for success?", options: ["-1", "1", "0", "true"], answer: 2, explanation: "By convention, main() returns 0 to indicate successful execution." },
+          { question: "What does \\n do in printf?", options: ["Prints 'n'", "Adds a newline", "Adds a tab", "Nothing"], answer: 1, explanation: "\\n is the escape sequence for a newline character." },
+          { question: "What does %.2f do?", options: ["Prints 2 floats", "Rounds to 2 decimal places", "Multiplies by 2", "Divides by 2"], answer: 1, explanation: "%.2f formats a float to 2 decimal places." },
+        ],
+      },
+      {
+        id: "c-variables",
+        title: "Variables & Data Types",
+        description: "C's primitive types and memory.",
+        content: `C has basic types: \`int\`, \`float\`, \`double\`, \`char\`. Size depends on platform.\n\nVariables must be **declared before use** with a type. C is statically typed.\n\nUse \`sizeof()\` to check the size of types in bytes. Use \`const\` for constants.`,
+        code: `#include <stdio.h>\n\nint main() {\n    int count = 42;\n    float pi = 3.14f;\n    double precise = 3.14159265358979;\n    char letter = 'A';\n    const int MAX = 100;\n    \n    printf("int: %d (size: %lu bytes)\\n", count, sizeof(int));\n    printf("float: %.2f (size: %lu bytes)\\n", pi, sizeof(float));\n    printf("double: %.10f (size: %lu bytes)\\n", precise, sizeof(double));\n    printf("char: %c (ASCII: %d)\\n", letter, letter);\n    printf("const: %d\\n", MAX);\n    \n    // Type casting\n    int a = 7, b = 2;\n    printf("Integer div: %d\\n", a / b);\n    printf("Float div: %.2f\\n", (float)a / b);\n    \n    return 0;\n}`,
+        language: "C",
+        expectedOutput: `int: 42 (size: 4 bytes)\nfloat: 3.14 (size: 4 bytes)\ndouble: 3.1415926536 (size: 8 bytes)\nchar: A (ASCII: 65)\nconst: 100\nInteger div: 3\nFloat div: 3.50`,
+        tips: [
+          "int division truncates — cast to float for decimal results",
+          "sizeof() returns size in bytes",
+          "char is actually a small integer (ASCII value)",
+          "Use const for values that shouldn't change",
+        ],
+        questions: [
+          { question: "What is sizeof(int) typically?", options: ["1 byte", "2 bytes", "4 bytes", "8 bytes"], answer: 2, explanation: "On most modern systems, int is 4 bytes (32 bits)." },
+          { question: "What does 7/2 return in C (both int)?", options: ["3.5", "3", "4", "Error"], answer: 1, explanation: "Integer division truncates the result in C." },
+          { question: "What is the ASCII value of 'A'?", options: ["97", "65", "48", "0"], answer: 1, explanation: "The ASCII code for uppercase 'A' is 65." },
+          { question: "What does const do?", options: ["Makes variable global", "Prevents modification", "Makes variable static", "Initializes to 0"], answer: 1, explanation: "const declares a read-only variable that cannot be modified." },
+          { question: "What type gives highest precision?", options: ["int", "float", "double", "char"], answer: 2, explanation: "double provides double-precision (64-bit) floating point." },
+        ],
+      },
+    ],
+  },
+  {
+    id: "c-pointers",
+    title: "Pointers & Memory",
+    icon: "🔗",
+    color: "hsl(var(--syntax-type))",
+    lessons: [
+      {
+        id: "c-pointers-basics",
+        title: "Pointers",
+        description: "Understand memory addresses and pointers.",
+        content: `A **pointer** stores the memory address of a variable.\n\n\`&\` gets the address of a variable. \`*\` dereferences a pointer (gets the value at that address).\n\nPointer declaration: \`int *ptr;\` — ptr is a pointer to an int.\n\nPointers enable pass-by-reference, dynamic memory, and efficient data structures.`,
+        code: `#include <stdio.h>\n\nvoid swap(int *a, int *b) {\n    int temp = *a;\n    *a = *b;\n    *b = temp;\n}\n\nint main() {\n    int x = 10;\n    int *ptr = &x;\n    \n    printf("Value of x: %d\\n", x);\n    printf("Address of x: %p\\n", (void*)&x);\n    printf("ptr points to: %d\\n", *ptr);\n    \n    // Modify through pointer\n    *ptr = 42;\n    printf("x after *ptr = 42: %d\\n", x);\n    \n    // Swap using pointers\n    int a = 5, b = 10;\n    printf("Before swap: a=%d, b=%d\\n", a, b);\n    swap(&a, &b);\n    printf("After swap: a=%d, b=%d\\n", a, b);\n    \n    // Pointer arithmetic\n    int arr[] = {10, 20, 30};\n    int *p = arr;\n    printf("arr[0]=%d, arr[1]=%d, arr[2]=%d\\n", *p, *(p+1), *(p+2));\n    \n    return 0;\n}`,
+        language: "C",
+        expectedOutput: `Value of x: 10\nAddress of x: 0x7ffd...\nptr points to: 10\nx after *ptr = 42: 42\nBefore swap: a=5, b=10\nAfter swap: a=10, b=5\narr[0]=10, arr[1]=20, arr[2]=30`,
+        tips: [
+          "& gets address, * dereferences (gets value)",
+          "Pointers enable pass-by-reference in C",
+          "Array names decay to pointers: arr == &arr[0]",
+          "Always initialize pointers — uninitialized pointers cause crashes",
+        ],
+        questions: [
+          { question: "What does & do?", options: ["Logical AND", "Gets address of variable", "Declares pointer", "Dereferences pointer"], answer: 1, explanation: "& is the address-of operator — it returns the memory address." },
+          { question: "What does *ptr do?", options: ["Multiplies", "Gets value at address ptr points to", "Gets address", "Declares pointer"], answer: 1, explanation: "* dereferences a pointer — accesses the value at that address." },
+          { question: "How does C achieve pass-by-reference?", options: ["Using &", "Using pointers", "Using ref keyword", "It can't"], answer: 1, explanation: "C simulates pass-by-reference by passing pointers to functions." },
+          { question: "What is pointer arithmetic?", options: ["Math with numbers", "Moving pointer by type size", "Creating pointers", "Deleting pointers"], answer: 1, explanation: "Pointer arithmetic moves the pointer by multiples of the pointed-to type's size." },
+          { question: "What is a NULL pointer?", options: ["Points to 0", "Points to nothing (invalid address)", "An error", "An empty array"], answer: 1, explanation: "NULL is a pointer that doesn't point to any valid memory location." },
+        ],
+      },
+      {
+        id: "c-malloc",
+        title: "Dynamic Memory Allocation",
+        description: "Allocate and free memory at runtime.",
+        content: `C provides \`malloc()\`, \`calloc()\`, \`realloc()\`, and \`free()\` for dynamic memory.\n\n\`malloc(size)\` allocates bytes and returns a void pointer. \`free(ptr)\` releases memory.\n\n**Always free what you malloc** — memory leaks are a common C bug.\n\n\`calloc(n, size)\` allocates and zero-initializes. \`realloc()\` resizes.`,
+        code: `#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    // Allocate array of 5 ints\n    int *arr = (int*)malloc(5 * sizeof(int));\n    if (arr == NULL) {\n        printf("Allocation failed!\\n");\n        return 1;\n    }\n    \n    // Fill and print\n    for (int i = 0; i < 5; i++) {\n        arr[i] = (i + 1) * 10;\n    }\n    printf("Dynamic array: ");\n    for (int i = 0; i < 5; i++) {\n        printf("%d ", arr[i]);\n    }\n    printf("\\n");\n    \n    // Resize to 8 elements\n    arr = (int*)realloc(arr, 8 * sizeof(int));\n    arr[5] = 60; arr[6] = 70; arr[7] = 80;\n    printf("After realloc: ");\n    for (int i = 0; i < 8; i++) {\n        printf("%d ", arr[i]);\n    }\n    printf("\\n");\n    \n    // Free memory\n    free(arr);\n    arr = NULL;\n    printf("Memory freed!\\n");\n    \n    return 0;\n}`,
+        language: "C",
+        expectedOutput: `Dynamic array: 10 20 30 40 50\nAfter realloc: 10 20 30 40 50 60 70 80\nMemory freed!`,
+        tips: [
+          "Always check if malloc returns NULL",
+          "free() every malloc'd pointer exactly once",
+          "Set pointer to NULL after freeing",
+          "calloc() zero-initializes, malloc() does not",
+        ],
+        questions: [
+          { question: "What does malloc return?", options: ["int", "void pointer", "Array", "NULL always"], answer: 1, explanation: "malloc returns a void pointer to the allocated memory block." },
+          { question: "What happens if you don't free?", options: ["Nothing", "Memory leak", "Crash", "Auto-freed"], answer: 1, explanation: "Not freeing memory causes a memory leak — wasted memory until program ends." },
+          { question: "What does calloc do differently from malloc?", options: ["Is faster", "Zero-initializes memory", "Allocates more", "Frees automatically"], answer: 1, explanation: "calloc allocates and initializes all bytes to zero." },
+          { question: "What does realloc do?", options: ["Frees memory", "Resizes an allocation", "Creates new allocation", "Copies memory"], answer: 1, explanation: "realloc changes the size of an existing memory block." },
+          { question: "Why set pointer to NULL after free?", options: ["Required by C", "Prevents double-free bugs", "Frees memory again", "Improves speed"], answer: 1, explanation: "Setting to NULL prevents accidentally using freed memory (dangling pointer)." },
+        ],
+      },
+    ],
+  },
+];
