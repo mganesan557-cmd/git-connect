@@ -12,7 +12,6 @@ export default {
         "2xl": "1400px",
       },
     },
-    extend: {
       fontFamily: {
         display: ["Outfit", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
@@ -91,10 +90,6 @@ export default {
         "slide-in": {
           from: { opacity: "0", transform: "translateX(-10px)" },
           to: { opacity: "1", transform: "translateX(0)" },
-        },
-        pulse: {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.5" },
         },
       },
       animation: {
