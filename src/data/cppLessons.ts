@@ -1,0 +1,116 @@
+import { Topic } from "./pythonLessons";
+
+export const cppTopics: Topic[] = [
+  {
+    id: "cpp-basics",
+    title: "C++ Basics",
+    icon: "🔧",
+    color: "hsl(var(--syntax-function))",
+    lessons: [
+      {
+        id: "cpp-hello",
+        title: "Hello World & I/O",
+        description: "Your first C++ program with cin/cout.",
+        content: `C++ extends C with object-oriented features, templates, and a richer standard library.\n\nUse \`cout\` for output and \`cin\` for input (from \`<iostream>\`).\n\nC++ uses **namespaces** — \`std::\` prefix or \`using namespace std;\` (not recommended in headers).`,
+        code: `#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    cout << "Hello, World!" << endl;\n    \n    // Variables\n    string name = "Alice";\n    int age = 25;\n    double gpa = 3.85;\n    \n    cout << "Name: " << name << endl;\n    cout << "Age: " << age << endl;\n    cout << "GPA: " << gpa << endl;\n    \n    // auto keyword\n    auto x = 42;        // int\n    auto pi = 3.14;     // double\n    auto msg = "hello"s; // string (with s suffix)\n    \n    cout << "auto int: " << x << endl;\n    cout << "auto double: " << pi << endl;\n    \n    return 0;\n}`,
+        language: "C++",
+        expectedOutput: `Hello, World!\nName: Alice\nAge: 25\nGPA: 3.85\nauto int: 42\nauto double: 3.14`,
+        tips: [
+          "cout uses << operator, cin uses >>",
+          "endl flushes the buffer and adds newline",
+          "auto deduces the type at compile time",
+          "Use <string> for std::string",
+        ],
+        questions: [
+          { question: "What does cout << do?", options: ["Reads input", "Prints output", "Compares values", "Shifts bits"], answer: 1, explanation: "cout with << is the output operator in C++." },
+          { question: "What does auto do?", options: ["Makes variable automatic", "Deduces type from value", "Creates pointer", "Makes variable global"], answer: 1, explanation: "auto lets the compiler deduce the variable's type." },
+          { question: "What does endl do?", options: ["Ends program", "Adds newline and flushes", "Ends line only", "Nothing"], answer: 1, explanation: "endl outputs a newline and flushes the output buffer." },
+          { question: "What is std::?", options: ["A variable", "A namespace prefix", "A function", "A type"], answer: 1, explanation: "std:: is the standard library namespace." },
+          { question: "Is C++ backward compatible with C?", options: ["Yes, mostly", "No", "Only for functions", "Only for types"], answer: 0, explanation: "Most C code compiles as C++, with some exceptions." },
+        ],
+      },
+      {
+        id: "cpp-references",
+        title: "References & Pointers",
+        description: "C++ references vs pointers.",
+        content: `C++ adds **references** (\`&\`) — aliases for existing variables. Unlike pointers, references cannot be null and cannot be reseated.\n\nUse references for function parameters to avoid copying large objects.\n\n**Smart pointers** (\`unique_ptr\`, \`shared_ptr\`) manage memory automatically — prefer them over raw pointers.`,
+        code: `#include <iostream>\n#include <memory>\nusing namespace std;\n\nvoid swap(int& a, int& b) {\n    int temp = a;\n    a = b;\n    b = temp;\n}\n\nint main() {\n    // References\n    int x = 10;\n    int& ref = x;  // ref is an alias for x\n    ref = 42;\n    cout << "x = " << x << endl;  // 42\n    \n    // Pass by reference\n    int a = 5, b = 10;\n    cout << "Before: a=" << a << " b=" << b << endl;\n    swap(a, b);\n    cout << "After: a=" << a << " b=" << b << endl;\n    \n    // Smart pointers\n    auto ptr = make_unique<int>(100);\n    cout << "unique_ptr: " << *ptr << endl;\n    \n    auto shared = make_shared<string>("Hello");\n    auto copy = shared; // reference count = 2\n    cout << "shared_ptr: " << *shared << endl;\n    cout << "use_count: " << shared.use_count() << endl;\n    \n    return 0;\n}`,
+        language: "C++",
+        expectedOutput: `x = 42\nBefore: a=5 b=10\nAfter: a=10 b=5\nunique_ptr: 100\nshared_ptr: Hello\nuse_count: 2`,
+        tips: [
+          "References must be initialized and cannot be null",
+          "Use const& for read-only reference parameters",
+          "Prefer smart pointers over new/delete",
+          "unique_ptr cannot be copied, only moved",
+        ],
+        questions: [
+          { question: "Can a reference be null?", options: ["Yes", "No", "Only const references", "Only in C++20"], answer: 1, explanation: "References must always refer to a valid object — they cannot be null." },
+          { question: "What does unique_ptr guarantee?", options: ["Shared ownership", "Single ownership", "No ownership", "Weak ownership"], answer: 1, explanation: "unique_ptr ensures exactly one owner of the managed object." },
+          { question: "What does make_shared do?", options: ["Creates a raw pointer", "Creates a shared_ptr efficiently", "Shares a reference", "Copies memory"], answer: 1, explanation: "make_shared creates a shared_ptr with a single allocation." },
+          { question: "How do references differ from pointers?", options: ["No difference", "Cannot be null or reseated", "Are slower", "Use more memory"], answer: 1, explanation: "References must be initialized, cannot be null, and cannot change what they reference." },
+          { question: "When should you use const&?", options: ["Always", "For read-only large parameters", "For small types", "Never"], answer: 1, explanation: "const& avoids copying while preventing modification." },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cpp-oop",
+    title: "OOP in C++",
+    icon: "🏛️",
+    color: "hsl(var(--syntax-type))",
+    lessons: [
+      {
+        id: "cpp-classes",
+        title: "Classes & Constructors",
+        description: "Object-oriented programming in C++.",
+        content: `C++ classes support constructors, destructors, access modifiers, operator overloading, and more.\n\nUse **initializer lists** for efficient construction. The **Rule of Three/Five** applies to classes managing resources.\n\n\`struct\` is the same as \`class\` but with default public access.`,
+        code: `#include <iostream>\n#include <string>\nusing namespace std;\n\nclass Vector2D {\nprivate:\n    double x, y;\n    \npublic:\n    // Constructor with initializer list\n    Vector2D(double x = 0, double y = 0) : x(x), y(y) {}\n    \n    // Getters\n    double getX() const { return x; }\n    double getY() const { return y; }\n    \n    // Operator overloading\n    Vector2D operator+(const Vector2D& other) const {\n        return Vector2D(x + other.x, y + other.y);\n    }\n    \n    // Friend function for output\n    friend ostream& operator<<(ostream& os, const Vector2D& v) {\n        os << "(" << v.x << ", " << v.y << ")";\n        return os;\n    }\n};\n\nint main() {\n    Vector2D a(3, 4);\n    Vector2D b(1, 2);\n    Vector2D c = a + b;\n    \n    cout << "a = " << a << endl;\n    cout << "b = " << b << endl;\n    cout << "a + b = " << c << endl;\n    \n    return 0;\n}`,
+        language: "C++",
+        expectedOutput: `a = (3, 4)\nb = (1, 2)\na + b = (4, 6)`,
+        tips: [
+          "Use initializer lists for efficient member initialization",
+          "Mark getters as const",
+          "Operator overloading makes custom types intuitive",
+          "friend grants non-member functions access to private members",
+        ],
+        questions: [
+          { question: "What is an initializer list?", options: ["A list of includes", "Constructor initialization syntax", "Array initialization", "A linked list"], answer: 1, explanation: "Initializer lists (: x(val)) initialize members before the constructor body runs." },
+          { question: "What does const after a method mean?", options: ["Method is static", "Method doesn't modify the object", "Method returns const", "Method is private"], answer: 1, explanation: "A const method promises not to modify the object's state." },
+          { question: "What does operator+ do?", options: ["Increments", "Overloads the + operator", "Adds to a list", "Creates a sum"], answer: 1, explanation: "Operator overloading defines custom behavior for operators." },
+          { question: "What does friend do?", options: ["Creates a subclass", "Grants private access to non-members", "Makes method public", "Creates a copy"], answer: 1, explanation: "friend lets a non-member function access private members." },
+          { question: "Default access in class vs struct?", options: ["Both public", "Both private", "class=private, struct=public", "class=public, struct=private"], answer: 2, explanation: "class members are private by default, struct members are public." },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cpp-stl",
+    title: "STL & Templates",
+    icon: "📚",
+    color: "hsl(var(--syntax-string))",
+    lessons: [
+      {
+        id: "cpp-stl-containers",
+        title: "STL Containers",
+        description: "Vector, map, set, and more.",
+        content: `The **Standard Template Library (STL)** provides generic containers and algorithms.\n\nKey containers:\n- \`vector\` — dynamic array\n- \`map\` / \`unordered_map\` — key-value pairs\n- \`set\` / \`unordered_set\` — unique elements\n- \`queue\`, \`stack\`, \`deque\` — adapters\n\nUse **range-based for** loops and **structured bindings** (C++17) for clean iteration.`,
+        code: `#include <iostream>\n#include <vector>\n#include <map>\n#include <set>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    // Vector\n    vector<int> nums = {5, 2, 8, 1, 9};\n    sort(nums.begin(), nums.end());\n    cout << "Sorted: ";\n    for (int n : nums) cout << n << " ";\n    cout << endl;\n    \n    // Map\n    map<string, int> ages;\n    ages["Alice"] = 25;\n    ages["Bob"] = 30;\n    for (const auto& [name, age] : ages) {\n        cout << name << ": " << age << endl;\n    }\n    \n    // Set\n    set<int> unique = {3, 1, 4, 1, 5, 9, 2, 6, 5};\n    cout << "Unique: ";\n    for (int n : unique) cout << n << " ";\n    cout << endl;\n    \n    // Algorithms\n    auto it = find(nums.begin(), nums.end(), 8);\n    if (it != nums.end()) {\n        cout << "Found 8 at index " << distance(nums.begin(), it) << endl;\n    }\n    \n    return 0;\n}`,
+        language: "C++",
+        expectedOutput: `Sorted: 1 2 5 8 9\nAlice: 25\nBob: 30\nUnique: 1 2 3 4 5 6 9\nFound 8 at index 3`,
+        tips: [
+          "vector is the go-to container for most use cases",
+          "unordered_map is faster (O(1)) but unordered",
+          "Use auto& in range-for to avoid copies",
+          "Structured bindings (auto& [k, v]) work with pairs and tuples",
+        ],
+        questions: [
+          { question: "What is vector equivalent to?", options: ["Linked list", "Dynamic array", "Hash table", "Binary tree"], answer: 1, explanation: "vector is a dynamic array that grows automatically." },
+          { question: "What does set guarantee?", options: ["Order only", "Uniqueness only", "Sorted unique elements", "Nothing"], answer: 2, explanation: "set stores sorted unique elements." },
+          { question: "What does auto& [k, v] do?", options: ["Creates pair", "Structured binding (destructuring)", "Type casting", "Template"], answer: 1, explanation: "Structured bindings extract elements from pairs/tuples." },
+          { question: "map vs unordered_map?", options: ["Same thing", "map is sorted O(log n), unordered is O(1)", "unordered is sorted", "map is faster"], answer: 1, explanation: "map keeps keys sorted (O(log n)), unordered_map uses hashing (O(1) avg)." },
+          { question: "What does sort() require?", options: ["A vector", "Begin and end iterators", "A comparison function", "A sorted array"], answer: 1, explanation: "sort() takes begin() and end() iterators of a range." },
+        ],
+      },
+    ],
+  },
+];
